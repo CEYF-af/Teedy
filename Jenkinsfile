@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // JDK 11 的路径
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+    }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
     }
