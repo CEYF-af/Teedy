@@ -20,7 +20,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'sudo apt-get update && sudo apt-get install -y tesseract-ocr'
+                sh 'sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-deu tesseract-ocr-eng'
             }
         }
 
