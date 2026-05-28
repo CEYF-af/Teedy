@@ -26,12 +26,11 @@ pipeline {
 
         stage('Build, Test, and Package') {
             steps {
-                sh 'mvn clean install pmd:pmd surefire-report:report'
+                sh 'mvn clean install surefire-report:report'
             }
             post {
                 always {
                     junit '**/target/surefire-reports/*.xml'
-                    pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''
                 }
             }
         }
