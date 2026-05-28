@@ -22,20 +22,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven
-        run: mvn clean compile
-
-      - name: PMD Code Check
-        run: mvn pmd:pmd
-
-      - name: Run Tests
-        run: mvn test
-
-      - name: Generate Test Reports
-        run: mvn surefire-report:report
-
-      - name: Package and Generate JavaDoc
-        run: mvn package
+      - name: Build, Test, and Package with Maven
+        run: mvn clean install pmd:pmd surefire-report:report
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
