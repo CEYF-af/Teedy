@@ -17,43 +17,15 @@ pipeline {
             }
         }
 
-        stage('Maven Build') {
+        stage('Build, Test, and Package') {
             steps {
-                sh 'mvn clean compile'
-            }
-        }
-
-        stage('PMD Code Check') {
-            steps {
-                sh 'mvn pmd:pmd'
-            }
-            post {
-                always {
-                    pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''
-                }
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'mvn test'
+                sh 'mvn clean install pmd:pmd surefire-report:report'
             }
             post {
                 always {
                     junit '**/target/surefire-reports/*.xml'
+                    pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''
                 }
-            }
-        }
-
-        stage('Generate Test Reports') {
-            steps {
-                sh 'mvn surefire-report:report'
-            }
-        }
-
-        stage('Package and Generate JavaDoc') {
-            steps {
-                sh 'mvn package'
             }
         }
     }
