@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build, Test, and Package') {
             steps {
-                sh 'mvn clean install surefire-report:report'
+                sh 'mvn clean install pmd:pmd surefire-report:report'
             }
             post {
                 always {
@@ -44,7 +44,7 @@ pipeline {
             echo 'Build failed!'
         }
         always {
-            archiveArtifacts artifacts: '**/target/*.jar, **/target/surefire-reports/*.html', fingerprint: true
+            archiveArtifacts artifacts: '**/target/*.jar, **/target/surefire-reports/*.html, **/target/pmd.xml', fingerprint: true
         }
     }
 }

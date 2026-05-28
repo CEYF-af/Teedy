@@ -26,7 +26,7 @@ jobs:
           cache: maven
 
       - name: Build, Test, and Package with Maven
-        run: mvn clean install surefire-report:report
+        run: mvn clean install pmd:pmd surefire-report:report
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -35,6 +35,7 @@ jobs:
           path: |
             **/target/*.jar
             **/target/surefire-reports/*.html
+            **/target/pmd.xml
 
       - name: Archive test results
         uses: actions/upload-artifact@v4
