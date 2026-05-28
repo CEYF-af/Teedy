@@ -18,6 +18,12 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                sh 'sudo apt-get update && sudo apt-get install -y tesseract-ocr'
+            }
+        }
+
         stage('Build, Test, and Package') {
             steps {
                 sh 'mvn clean install pmd:pmd surefire-report:report'
