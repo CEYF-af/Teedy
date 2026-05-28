@@ -61,6 +61,10 @@
     <org.apache.maven.plugins.maven-war-plugin.version>3.3.2</org.apache.maven.plugins.maven-war-plugin.version>
     <org.apache.maven.plugins.maven-surefire-plugin.version>3.0.0</org.apache.maven.plugins.maven-surefire-plugin.version>
     <org.eclipse.jetty.jetty-maven-plugin.version>11.0.20</org.eclipse.jetty.jetty-maven-plugin.version>
+    <org.apache.maven.plugins.maven-pmd-plugin.version>3.21.0</org.apache.maven.plugins.maven-pmd-plugin.version>
+    <org.apache.maven.plugins.maven-javadoc-plugin.version>3.6.3</org.apache.maven.plugins.maven-javadoc-plugin.version>
+    <org.apache.maven.plugins.maven-site-plugin.version>3.12.1</org.apache.maven.plugins.maven-site-plugin.version>
+    <org.apache.maven.plugins.maven-surefire-report-plugin.version>3.0.0</org.apache.maven.plugins.maven-surefire-report-plugin.version>
   </properties>
 
   <scm>
@@ -108,6 +112,7 @@
         <configuration>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
+          <testFailureIgnore>false</testFailureIgnore>
         </configuration>
       </plugin>
 
@@ -116,8 +121,70 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${org.eclipse.jetty.jetty-maven-plugin.version}</version>
       </plugin>
+
+      <!-- PMD Plugin for code quality check -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-pmd-plugin.version}</version>
+        <configuration>
+          <failOnViolation>false</failOnViolation>
+          <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+        </configuration>
+      </plugin>
+
+      <!-- JavaDoc Plugin for generating documentation -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-javadoc-plugin.version}</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <charset>${project.build.sourceEncoding}</charset>
+          <docencoding>${project.build.sourceEncoding}</docencoding>
+          <additionalparam>-Xdoclint:none</additionalparam>
+        </configuration>
+        <executions>
+          <execution>
+            <id>javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Site Plugin for generating reports -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-site-plugin.version}</version>
+      </plugin>
+
+      <!-- Surefire Report Plugin for test reports -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-surefire-report-plugin.version}</version>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-pmd-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${org.apache.maven.plugins.maven-surefire-report-plugin.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <modules>
     <module>docs-core</module>
